@@ -29,19 +29,19 @@ pip install pandas
 
 ## Como Executar o Programa
 
-### Clone o repositório:
+### 1. Clone o repositório:
 
 git clone https://github.com/seuusuario/seurepositorio.git
 cd seurepositorio
-### Crie o arquivo Python: 
+### 2. Crie o arquivo Python: 
 
 Crie um arquivo chamado estoque.py e cole o código do sistema fornecido.
 
-### Execute o arquivo:
+### 3. Execute o arquivo:
 
 python estoque.py
 
-### Uso do Programa:
+### 4. Uso do Programa:
 
 Ao iniciar, selecione um arquivo CSV para carregar o estoque.
 Insira as quantidades desejadas para cada item e clique em "Atualizar Estoque de Todos os Itens".
