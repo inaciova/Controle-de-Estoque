@@ -2,14 +2,27 @@ import pandas as pd
 import tkinter as tk
 from tkinter import messagebox, filedialog
 
-# 1. Criação do DataFrame inicial
-data = {
-    'Item': ['Balão', 'Paraquedas', 'Sonda'],
-    'Quantidade': [50, 20, 10],
-    'Estoque Mínimo': [30, 15, 5]
+# Função para criar um DataFrame inicial vazio
+def criar_dataframe_vazio():
+    return pd.DataFrame(columns=['Item', 'Quantidade', 'Estoque Mínimo'])
+
+# Definindo os valores mínimos
+estoque_minimo = {
+    'Balão': 50,
+    'Paraquedas': 50,
+    'Sonda': 40
 }
 
-estoque_df = pd.DataFrame(data)
+# 1. Função para carregar os dados de um arquivo CSV
+def carregar_estoque():
+    arquivo = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
+    if arquivo:
+        global estoque_df
+        estoque_df = pd.read_csv(arquivo)
+        atualizar_labels()
+        messagebox.showinfo("Carregar", "Estoque carregado com sucesso!")
+    else:
+        estoque_df = criar_dataframe_vazio()  # Se não carregar, cria um DataFrame vazio
 
 # 2. Função para verificar estoque baixo
 def verificar_estoque_baixo(df):
@@ -40,12 +53,19 @@ def listar_itens():
 
 # 6. Função para atualizar os rótulos com as quantidades atuais
 def atualizar_labels():
-    label_quantidade_balao.config(
-        text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Balão', 'Quantidade'].values[0]}")
-    label_quantidade_paraquedas.config(
-        text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Paraquedas', 'Quantidade'].values[0]}")
-    label_quantidade_sonda.config(
-        text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Sonda', 'Quantidade'].values[0]}")
+    for item in estoque_df['Item']:
+        if item == 'Balão':
+            label_quantidade_balao.config(
+                text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Balão', 'Quantidade'].values[0]}")
+            estoque_df.loc[estoque_df['Item'] == 'Balão', 'Estoque Mínimo'] = estoque_minimo['Balão']
+        elif item == 'Paraquedas':
+            label_quantidade_paraquedas.config(
+                text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Paraquedas', 'Quantidade'].values[0]}")
+            estoque_df.loc[estoque_df['Item'] == 'Paraquedas', 'Estoque Mínimo'] = estoque_minimo['Paraquedas']
+        elif item == 'Sonda':
+            label_quantidade_sonda.config(
+                text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Sonda', 'Quantidade'].values[0]}")
+            estoque_df.loc[estoque_df['Item'] == 'Sonda', 'Estoque Mínimo'] = estoque_minimo['Sonda']
 
 # 7. Função para manipular o botão de atualização
 def atualizar_todos():
@@ -60,7 +80,7 @@ def atualizar_todos():
     except ValueError:
         messagebox.showerror("Erro", "Por favor, insira quantidades válidas.")
 
-# 9. Função para salvar os dados em um arquivo CSV
+# 8. Função para salvar os dados em um arquivo CSV
 def salvar_estoque():
     arquivo = filedialog.asksaveasfilename(defaultextension=".csv",
                                              filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
@@ -68,18 +88,12 @@ def salvar_estoque():
         estoque_df.to_csv(arquivo, index=False)
         messagebox.showinfo("Salvar", "Estoque salvo com sucesso!")
 
-# 10. Função para carregar os dados de um arquivo CSV
-def carregar_estoque():
-    arquivo = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
-    if arquivo:
-        global estoque_df
-        estoque_df = pd.read_csv(arquivo)
-        atualizar_labels()
-        messagebox.showinfo("Carregar", "Estoque carregado com sucesso!")
-
-# 8. Criação da interface gráfica
+# 9. Criação da interface gráfica
 app = tk.Tk()
 app.title("Gerenciamento de Estoque")
+
+# Inicializa o DataFrame
+estoque_df = criar_dataframe_vazio()
 
 # Frame para entrada de dados
 frame_entrada = tk.Frame(app)
@@ -90,24 +104,21 @@ label_balao = tk.Label(frame_entrada, text="Balão:")
 label_balao.grid(row=0, column=0, padx=5)
 entry_balao = tk.Entry(frame_entrada)
 entry_balao.grid(row=0, column=1, padx=5)
-label_quantidade_balao = tk.Label(frame_entrada,
-                                  text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Balão', 'Quantidade'].values[0]}")
+label_quantidade_balao = tk.Label(frame_entrada, text="Quantidade Atual: 0")
 label_quantidade_balao.grid(row=0, column=2, padx=5)
 
 label_paraquedas = tk.Label(frame_entrada, text="Paraquedas:")
 label_paraquedas.grid(row=1, column=0, padx=5)
 entry_paraquedas = tk.Entry(frame_entrada)
 entry_paraquedas.grid(row=1, column=1, padx=5)
-label_quantidade_paraquedas = tk.Label(frame_entrada,
-                                       text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Paraquedas', 'Quantidade'].values[0]}")
+label_quantidade_paraquedas = tk.Label(frame_entrada, text="Quantidade Atual: 0")
 label_quantidade_paraquedas.grid(row=1, column=2, padx=5)
 
 label_sonda = tk.Label(frame_entrada, text="Sonda:")
 label_sonda.grid(row=2, column=0, padx=5)
 entry_sonda = tk.Entry(frame_entrada)
 entry_sonda.grid(row=2, column=1, padx=5)
-label_quantidade_sonda = tk.Label(frame_entrada,
-                                  text=f"Quantidade Atual: {estoque_df.loc[estoque_df['Item'] == 'Sonda', 'Quantidade'].values[0]}")
+label_quantidade_sonda = tk.Label(frame_entrada, text="Quantidade Atual: 0")
 label_quantidade_sonda.grid(row=2, column=2, padx=5)
 
 # Botão para atualizar todos os itens
@@ -122,10 +133,10 @@ botao_listar.pack(pady=5)
 botao_salvar = tk.Button(app, text="Salvar Estoque", command=salvar_estoque)
 botao_salvar.pack(pady=5)
 
-botao_carregar = tk.Button(app, text="Carregar Estoque", command=carregar_estoque)
-botao_carregar.pack(pady=5)
+# Tenta carregar o estoque ao iniciar
+carregar_estoque()
 
-# Atualiza os rótulos ao iniciar
+# Atualiza os rótulos após carregar o estoque
 atualizar_labels()
 
 # Iniciar a interface
