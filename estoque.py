@@ -8,8 +8,8 @@ def criar_dataframe_vazio():
 
 # Definindo os valores mínimos
 estoque_minimo = {
-    'Balão': 50,
-    'Paraquedas': 50,
+    'Balão': 30,
+    'Paraquedas': 30,
     'Sonda': 40
 }
 
