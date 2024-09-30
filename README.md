@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Estoque  
 
-Este projeto implementa um sistema de gerenciamento de estoque, com o objetivo de otimizar a administração de materiais. O sistema permite carregar dados de um arquivo CSV, atualizar quantidades de itens, listar estoques e verificar alertas de itens com quantidade baixa.
+Este projeto implementa um sistema de gerenciamento de estoque, com o objetivo de otimizar a administração de materiais. O sistema permite carregar dados de um arquivo CSV, atualizar quantidades de itens, listar estoques, salva as alterações em um novo arquivo CSV e verificar alertas de itens com quantidade baixa.
 
 ## Funcionalidades
 
@@ -22,24 +22,39 @@ Este projeto implementa um sistema de gerenciamento de estoque, com o objetivo d
 - Bibliotecas necessárias:
   - pandas
 
-Para instalar o `pandas`, execute o seguinte comando:
+Para instalar o `pandas`, execute o seguinte comando: No terminal ou prompt de comando
 
-bash
 pip install pandas
 
 ## Como Executar o Programa
 
-### 1. Clone o repositório:
+### 1. Copie o código do arquivo python desse repositório:
+estoque.py
 
-git clone https://github.com/seuusuario/seurepositorio.git
-cd seurepositorio
 ### 2. Crie o arquivo Python: 
 
-Crie um arquivo chamado estoque.py e cole o código do sistema fornecido.
+Crie um arquivo chamado estoque.py e cole o código copiado do arquivo desse repositório.
 
 ### 3. Execute o arquivo:
 
 python estoque.py
+
+### 4. Criar um Atalho no Desktop
+Se você estiver usando Windows, pode criar um atalho no desktop para facilitar a execução do programa. Aqui está como fazer isso:
+1. Criar um Arquivo Batch (.bat):
+Abra o Bloco de Notas.
+Cole o seguinte código, substituindo o caminho pelo diretório onde está o seu arquivo estoque.py:
+
+@echo off <br/>
+cd "C:\caminho\para\o\diretorio" <br/>
+python estoque.py <br/>
+pause
+
+Salve o arquivo com a extensão .bat, por exemplo, iniciar_estoque.bat.
+Clique com o botão direito no arquivo .bat que você criou e selecione "Criar atalho".
+Arraste o atalho para a área de trabalho.
+Agora, você pode dar um duplo clique no atalho para iniciar o programa rapidamente.
+
 
 ### 4. Uso do Programa:
 
